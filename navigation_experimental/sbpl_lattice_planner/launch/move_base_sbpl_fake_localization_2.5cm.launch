@@ -1,0 +1,12 @@
+<launch>
+  <param name="/use_sim_time" value="true"/>
+ 
+  <include file="$(find sbpl_lattice_planner)/launch/move_base/move_base_sbpl.xml"/>
+
+  <node pkg="stage_ros" type="stageros" name="stageros" args="$(find teb_local_planner_tutorials)/stage/empty_box.world" respawn="false" >
+  </node>
+
+  <node name="fake_localization" pkg="fake_localization" type="fake_localization" respawn="false" />
+
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find sbpl_lattice_planner)/rviz/sbpl.rviz" />
+</launch>

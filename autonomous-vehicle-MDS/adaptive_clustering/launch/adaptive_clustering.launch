@@ -1,0 +1,16 @@
+<launch>
+  <node pkg="adaptive_clustering" name="pointcloud_ROI" type="pointcloud_ROI_" >
+  </node>  
+  <node pkg="adaptive_clustering" name="adaptive_clustering" type="adaptive_clustering" output="screen">
+    <param name="print_fps" value="true"/>
+  </node>
+  <node pkg="adaptive_clustering" name="obstacle_pub" type="path_obstacle.py" output="screen">
+  </node>
+
+  <node pkg="adaptive_clustering" name="test_path" type="test_path.py">
+  </node>
+  <!-- <node pkg="teb_local_planner_tutorials" name="teb_obstacle" type="publish_test_obstacles.py" output="screen">
+  </node> -->
+  
+</launch>
+

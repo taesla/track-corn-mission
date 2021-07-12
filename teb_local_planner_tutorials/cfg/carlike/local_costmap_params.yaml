@@ -1,0 +1,15 @@
+local_costmap:
+  global_frame: camera_init
+  robot_base_frame: velodyne
+  update_frequency: 5.0
+  publish_frequency: 2.0
+  static_map: true
+  rolling_window: true
+  width: 100.5
+  height: 100.5
+  resolution: 0.1
+  transform_tolerance: 0.5
+  
+  plugins:
+   - {name: static_layer,        type: "costmap_2d::StaticLayer"}
+   - {name: obstacle_layer,      type: "costmap_2d::ObstacleLayer"}

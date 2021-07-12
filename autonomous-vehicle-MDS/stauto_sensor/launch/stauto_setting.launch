@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<launch>
+    <!-- port configuration -->
+    <arg name="imu_port" default="/dev/ttyUSB0"/>
+    <arg name="robot_port" default="/dev/ttyUSB3"/>
+
+    <!--<arg name="gps_port" default="/dev/ttyACM1"/>-->
+    
+    <!-- IMU data-->
+    <node pkg="stauto_sensor" type="get_imu_24gv4.py" name="imu_data" output="screen">
+        <param name="imu_port" type="str" value="$(arg imu_port)"/> 
+    </node>
+
+    <!-- odometry -->
+    <node pkg="stauto_sensor" type="odometry.py" name="odometry" >
+    </node>
+
+    <!-- ERP42 data-->
+    <node pkg="stauto_control" type="ERP42_to_PC.py" name="erp42_data" >
+        <param name="robot_port" type="str" value="$(arg robot_port)"/>
+    </node>
+
+    <!-- serial control -->
+    <node pkg="stauto_control" type="PC_to_ERP42.py" name="serial_control" >
+        <param name="robot_port" type="str" value="$(arg robot_port)"/>
+    </node>
+
+    <!-- GPS data-->
+    <!-- <node pkg="stauto_sensor" type="get_gps_data.py" name="gps_data" > 
+        <param name="gps_port" type="str" value="$(arg gps_port)"/>
+    </node> -->
+
+    <!-- Velodyne data-->
+    <!-- <include file="$(find pointcloud_to_laserscan)/launch/sample_node.launch"> 
+    </include> -->
+
+    <!-- <include file="$(find velodyne)/velodyne_pointcloud/launch/VLP16_points.launch"> 
+    </include> -->
+
+    <!-- RVIZ -->
+    <!-- <node name="rviz" pkg="rviz" type="rviz"/> -->
+
+</launch>

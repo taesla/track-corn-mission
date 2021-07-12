@@ -1,0 +1,12 @@
+Website: http://www.iroboapp.org/index.php?title=Adding_Relaxed_Astar_Global_Path_Planner_As_Plugin_in_ROS
+
+To use the package add following line in your launch file under move_base node package
+
+<param name="base_global_planner" value="RAstar_planner/RAstarPlannerROS"/> 
+
+RAstar_ros.cpp내부에 
+`ifstream in("/home/plaif/global_path.txt");`의 주소를 변경하여 global_path.txt를 지정한다.
+
+### TODO
+
+1. RAstar_ros.cpp 자체에서 Subscribe가 안됨

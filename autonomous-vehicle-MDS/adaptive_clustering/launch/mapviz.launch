@@ -1,0 +1,57 @@
+<launch>
+
+  <node pkg="mapviz" type="mapviz" name="mapviz"></node>
+
+  <node pkg="swri_transform_util" type="initialize_origin.py" name="initialize_origin" >
+    <param name="local_xy_frame" value="/map"/>
+    <param name="local_xy_origin" value="swri"/>
+    <rosparam param="local_xy_origins">
+      [{ name: swri,
+         latitude: 37.999964,
+         longitude: 126.99962,
+         altitude: 0.0,
+         heading: 0.0}]
+    </rosparam>
+  </node>
+
+  <!-- <param name="/use_sim_time" value="true"/>  -->
+  
+  <node pkg="tf" type="static_transform_publisher" name="swri_transform" args="0 0 0 0 0 0 /map /odom 100"  />
+
+  	<arg name="model" default="$(find robot_description)/urdf/platform_base_allink.urdf"/>
+	<param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+
+
+  	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+	<node pkg="tf" type="static_transform_publisher" name="tf_pub_seconda" args="0 0 0 0 0 0 /odom /base_footprint 100"  />
+
+        <!--  ************** Navigation ***************  -->
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  	  	<rosparam file="$(find teb_local_planner_tutorials)/cfg/carlike/costmap_common_params.yaml" command="load" ns="global_costmap" />
+  	 	<rosparam file="$(find teb_local_planner_tutorials)/cfg/carlike/costmap_common_params.yaml" command="load" ns="local_costmap" />
+  		<rosparam file="$(find teb_local_planner_tutorials)/cfg/carlike/local_costmap_params.yaml" command="load" />
+  		<rosparam file="$(find teb_local_planner_tutorials)/cfg/carlike/global_costmap_params.yaml" command="load" />
+  		<rosparam file="$(find teb_local_planner_tutorials)/cfg/carlike/teb_local_planner_params.yaml" command="load" />
+
+		<param name="base_global_planner" value="RAstar_planner/RAstarPlannerROS" /> 
+		<param name="planner_frequency" value="20.0" />
+		<param name="planner_patience" value="20.0" />
+
+		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+		<param name="controller_frequency" value="20.0" />
+		<param name="controller_patience" value="20.0" />
+
+		<param name="clearing_rotation_allowed" value="false" /> <!-- Our carlike robot is not able to rotate in place -->
+	</node>
+
+
+	<!--  ****** Maps *****  -->
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find teb_local_planner_tutorials)/maps/empty_box.yaml" output="screen">
+		<param name="frame_id" value="map"/>
+	</node>
+
+	<node pkg="tf" type="static_transform_publisher" name="tf_pub_second" args="0 0 0 0 0 0 /odom /map 100"  />
+
+</launch>

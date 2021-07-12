@@ -1,0 +1,9 @@
+<launch>
+
+    <!-- ********state machine******** -->
+    <node name="core_controller" pkg="stauto_core" type="core_controller.py" output="screen"/>
+    <!--********keyboard event******** -->
+    <node name="core_keyboard" pkg="stauto_core" type="core_test_keyboard.py"/>
+
+
+</launch>

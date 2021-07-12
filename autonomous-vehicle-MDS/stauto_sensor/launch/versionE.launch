@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <!-- odom -->
+    <node pkg="stauto_sensor" type="path_select.py" name="path_select">
+    </node>
+
+    <!-- global_path_plan data-->
+    <node pkg="stauto_control" type="global_path_planner.py" name="global_path_planner_node">
+    </node>
+
+    <!-- global_path data-->
+    <node pkg="stauto_sensor" type="global_path_ver2.py" name="global_path_node" output="screen">
+    </node>
+
+    <!-- control -->
+    <node pkg="stauto_control" type="control.py" name="control_node" output="screen">
+    </node>
+
+
+
+    <!-- GPS data-->
+    <!-- <node pkg="stauto_sensor" type="get_gps_data.py" name="gps_data" >
+        <param name="gps_port" type="str" value="$(arg gps_port)"/>
+    </node> -->
+
+    <!-- Velodyne data-->
+    <!-- <include file="$(find pointcloud_to_laserscan)/launch/sample_node.launch">
+    </include> -->
+
+    <!-- <include file="$(find velodyne)/velodyne_pointcloud/launch/VLP16_points.launch">
+    </include> -->
+
+    <!-- RVIZ -->
+    <!-- <node name="rviz" pkg="rviz" type="rviz"/> -->
+
+</launch>
