@@ -35,8 +35,8 @@ class StopLine():
         try:
             # Read the image from the input topic:
             self.image = self.bridge.imgmsg_to_cv2(data)
-        except CvBridgeError, e:
-            print e
+        except CvBridgeError as e:
+            print(e)
 
 
     def convert_gray_scale(self, image):
@@ -101,7 +101,7 @@ class StopLine():
         self.rate = l1/l2
 
 
-        if self.rate>0.95:
+        if self.rate>0.75:
             print (round(self.rate,2), '1')
             return 1
         else:
@@ -112,7 +112,7 @@ class StopLine():
 
     def Camera(self, frame):
         slicedimage_hist = self.slice_image(frame.copy(), 80)
-        slicedimage = self.slice_image(frame.copy(), 30)
+        slicedimage = self.slice_image(frame.copy(), 15)
         self.stop_sliced_img.publish(self.bridge.cv2_to_imgmsg(slicedimage))
 
         white_image = self.select_white(slicedimage, slicedimage_hist)
@@ -153,4 +153,4 @@ if __name__ == '__main__':
             
        
         except KeyboardInterrupt:
-            print "Shutting down vison node."
+            print ("Shutting down vison node.")

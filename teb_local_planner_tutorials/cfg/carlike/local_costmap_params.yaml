@@ -1,9 +1,9 @@
 local_costmap:
-  global_frame: camera_init
-  robot_base_frame: velodyne
+  global_frame: velodyne
+  robot_base_frame: base_link
   update_frequency: 5.0
   publish_frequency: 2.0
-  static_map: true
+  static_map: false
   rolling_window: true
   width: 100.5
   height: 100.5

@@ -39,11 +39,15 @@ namespace loam
 LaserMapping::LaserMapping(const float& scanPeriod, const size_t& maxIterations)
 {
    // initialize mapping odometry and odometry tf messages
-   _odomAftMapped.header.frame_id = "/camera_init";
-   _odomAftMapped.child_frame_id = "/velodyne";
+   //_odomAftMapped.header.frame_id = "/camera_init";
+   //_odomAftMapped.child_frame_id = "/velodyne";
+   _odomAftMapped.header.frame_id = "/velodyne";
+   _odomAftMapped.child_frame_id = "/base_link";
 
-   _aftMappedTrans.frame_id_ = "/camera_init";
-   _aftMappedTrans.child_frame_id_ = "/velodyne";
+   //_aftMappedTrans.frame_id_ = "/camera_init";
+   //_aftMappedTrans.child_frame_id_ = "/velodyne";
+   _aftMappedTrans.frame_id_ = "/velodyne";
+   _aftMappedTrans.child_frame_id_ = "/base_link";
 }
 
 

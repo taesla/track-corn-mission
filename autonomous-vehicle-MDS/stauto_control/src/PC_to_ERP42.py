@@ -119,7 +119,7 @@ speed = 0
 steer = 0
 brake = 0
 
-#def cmd_callback(data):
+# def cmd_callback(data):
 #    global gear, speed, steer, brake
 
 #    gear = data.gear
@@ -136,7 +136,7 @@ def acker_callback(msg):
 
     brake = int(msg.drive.jerk)
     gear = int(msg.drive.acceleration)
-    print(steer*180/np.pi)
+    #print(steer*180/np.pi)
 
 def vel_callback(msg):
     global linear, angular
@@ -144,13 +144,23 @@ def vel_callback(msg):
     linear = msg.Twist.linear.x
     angular = msg.Twist.angular.z
 
+def cbStop(msg):
+        #self.stop_line = event_msg.data
+        global speed
+        if (msg.data == 1):
+            print('stop')
+            speed = 0
+            print(speed)
+        else :
+            print(' go ')
+            print(speed)
 
 if __name__ == '__main__':
     rospy.init_node('serial_node')
 
-    rospy.Subscriber("/ackermann_cmd", AckermannDriveStamped, acker_callback) #Lane_ack_vel , /ackermann_cmd
-
-
+    rospy.Subscriber("/ackermann_cmd", AckermannDriveStamped, acker_callback) #/Lane_ack_vel , /ackermann_cmd
+    rospy.Subscriber('stop_line', Int32,cbStop, queue_size=5)
+    
     rate = rospy.Rate(20)
 
     port = str(rospy.get_param("~robot_port","/dev/ttyUSB3"))
@@ -162,4 +172,6 @@ if __name__ == '__main__':
 	#Send to Controller
         Send_to_ERP42(gear, speed, steer, brake)
         rate.sleep()
+       
+
 	

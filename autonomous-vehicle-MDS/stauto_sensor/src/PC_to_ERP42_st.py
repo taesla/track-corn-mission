@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 import rospy
-from std_msgs.msg import Int32 
+from std_msgs.msg import Int32
 from ackermann_msgs.msg import AckermannDriveStamped
 from geometry_msgs.msg import Twist
 from math import *
@@ -24,8 +24,8 @@ STEER0 = chr(0X02)
 STEER1 = chr(0x02)
 BRAKE = chr(0x01)
 ALIVE = 0
-ETX0 = chr(0x0d)
-ETX1 = chr(0x0a)
+ETX0 = chr(0x0D)
+ETX1 = chr(0x0A)
 Packet=[]
 read=[]
 count=0
@@ -45,7 +45,7 @@ def GetGEAR(gear):
 
 def GetSPEED(speed):
     global count
-    print(speed)
+    #print(speed)
     SPEED0 = chr(0x00)
     SPEED = int(speed*36) # float to integer
     #print(111111111,SPEED)
@@ -104,8 +104,8 @@ def Send_to_ERP42(gear, speed, steer, brake):
     ALIVE = chr(count_alive)
     vals = [S, T, X, AorM, ESTOP, GEAR, SPEED0, SPEED1, STEER0, STEER1, BRAKE, ALIVE, ETX0, ETX1]
 
-    for i in range(len(vals)):
-        ser.write(vals[i]) # send!
+    #for i in range(len(vals)):
+    #    ser.write(vals[i]) # send!
         
    
 
@@ -115,11 +115,11 @@ cur_ENC_backup=0
 ################################################################################
 
 gear = 0
-speed = 0
+speed = 6
 steer = 0
 brake = 0
 
-# def cmd_callback(data):
+#def cmd_callback(data):
 #    global gear, speed, steer, brake
 
 #    gear = data.gear
@@ -138,40 +138,60 @@ def acker_callback(msg):
     gear = int(msg.drive.acceleration)
     #print(steer*180/np.pi)
 
+def acker_callback2(msg):
+    global speed, steer, brake, gear
+
+    speed = 0
+    steer = 0
+
+    brake = int(msg.drive.jerk)
+    gear = 0
+    #print(steer*180/np.pi)
+
+
 def vel_callback(msg):
     global linear, angular
 
     linear = msg.Twist.linear.x
     angular = msg.Twist.angular.z
+        
 
-def cbStop(msg):
-        #self.stop_line = event_msg.data
-        global speed
-        if (msg.data == 1):
-            print('stop')
-            speed = 0
-            print(speed)
-        else :
-            print(' go ')
-            print(speed)
+def callback2(msg):
+    
+    if msg.data == 1:        
+        rospy.Subscriber("/ackermann_cmd", AckermannDriveStamped, acker_callback2) #Lane_ack_vel , /ackermann_cmd
+        rate = rospy.Rate(20)
+        #print(speed)
+        print('stop')
+        
+        #global speed
+        #speed = 0
+    if msg.data == 0:
+        rospy.Subscriber("/ackermann_cmd", AckermannDriveStamped, acker_callback) #Lane_ack_vel , /ackermann_cmd
+        rate = rospy.Rate(20)
+        #print(speed)
+        print('go')
+        
+        #global speed
+        #speed = 2
 
 if __name__ == '__main__':
     rospy.init_node('serial_node')
 
-    rospy.Subscriber("/ackermann_cmd", AckermannDriveStamped, acker_callback) #/Lane_ack_vel , /ackermann_cmd
-    rospy.Subscriber('stop_line', Int32,cbStop, queue_size=5)
-    
+    # rospy.Subscriber("/ackermann_cmd", AckermannDriveStamped, acker_callback) #Lane_ack_vel , /ackermann_cmd
     rate = rospy.Rate(20)
 
-    port = str(rospy.get_param("~robot_port","/dev/ttyUSB3"))
-
+    port = str(rospy.get_param("~robot_port","/dev/ttyUSB2"))
+    #print(port)
     ser = serial.serial_for_url(port, baudrate=115200, timeout=1)
-
-
+    #print('ser:',ser)
     while (ser.isOpen() and (not rospy.is_shutdown())):
-	#Send to Controller
-        Send_to_ERP42(gear, speed, steer, brake)
-        rate.sleep()
-       
-
+	    print('second')        
+	    rospy.Subscriber('stop_line', Int32, callback2, queue_size=5)
+        #print('speed-output:',speed)
+	    Send_to_ERP42(gear, speed, steer, brake)
+	    rate.sleep()
+ 
+	# #Send to Controller
+    # 
 	
