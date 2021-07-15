@@ -122,7 +122,7 @@ if __name__ == "__main__":
     loop_rate = rospy.Rate(10) # 10hz
 
     try:
-        #print(header_msgs)
+        print(header_msgs)
         while(1):
             key = GetKey()
             fnPublish(key)

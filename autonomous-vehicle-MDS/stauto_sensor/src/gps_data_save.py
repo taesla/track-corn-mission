@@ -151,7 +151,7 @@ if __name__ == '__main__':
     rospack = rospkg.RosPack()
     rospack.list()
     arg_name = rospack.get_path('stauto_sensor') + "/src/gps_data/"
-    f=open(arg_name+"gps_data_seoultech.txt",'w')
+    f=open(arg_name+"hightech_lane1.txt",'w') #gps_front_test1.txt
 
     while isrunning:
         RoverMessege=ser.readline().decode('ascii')

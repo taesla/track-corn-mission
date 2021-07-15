@@ -8,6 +8,7 @@
   </node>
 
   <node pkg="adaptive_clustering" name="test_path" type="test_path.py">
+  <!--node pkg="adaptive_clustering" name="test_path" type="test.py"-->
   </node>
   <!-- <node pkg="teb_local_planner_tutorials" name="teb_obstacle" type="publish_test_obstacles.py" output="screen">
   </node> -->

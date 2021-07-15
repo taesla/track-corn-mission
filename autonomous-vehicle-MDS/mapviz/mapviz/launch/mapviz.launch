@@ -7,8 +7,8 @@
     <param name="local_xy_origin" value="swri"/>
     <rosparam param="local_xy_origins">
       [{ name: swri,
-         latitude: 37.999964,
-         longitude: 126.99962,
+         latitude: 37.99996353,
+         longitude: 126.99961783,
          altitude: 0.0,
          heading: 0.0}]
     </rosparam>

@@ -22,7 +22,7 @@ class HeightmapToCostMap
 public:
     HeightmapToCostMap();
     void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &cloud_msg);
-    float RESOLUTION_ = 0.085; // meters
+    float RESOLUTION_ = 0.3; // meters
 private:
     ros::NodeHandle nh_;
     std::string cloud_topic_; //default input

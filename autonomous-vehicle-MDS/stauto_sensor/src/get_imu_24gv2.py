@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+
 import serial
 import numpy as np
 import rospy, time
@@ -7,8 +8,11 @@ from sensor_msgs.msg import Imu
 from std_msgs.msg import Float32
 from geometry_msgs.msg import TransformStamped
 
-port = str(rospy.get_param("~imu_port","/dev/ttyUSB0"))
-
+<<<<<<< HEAD
+port = str(rospy.get_param("~imu_port","/dev/ttyUSB2"))
+=======
+port = str(rospy.get_param("~imu_port","/dev/ttyUSB3"))
+>>>>>>> 0335c58e01e6e92b5925c447b7d3d52857bbbd04
 rpy=[0,0,0]
 w_speed=[0,0,0]
 accel=[0,0,0]
@@ -52,9 +56,9 @@ if __name__ == '__main__':
 
     port = rospy.get_param("~GPS_PORT",port)
     ser = serial.serial_for_url(port,115200, timeout=0)
-    #global_path
+
     rospy.Subscriber("yaw_error",Float32,imu_error_callback)
-    imu_pub = rospy.Publisher("/imu/data", Imu, queue_size=10)
+    imu_pub = rospy.Publisher("/imu_data", Imu, queue_size=10)
 
     br = tf2_ros.TransformBroadcaster()
 
@@ -72,17 +76,12 @@ if __name__ == '__main__':
 
     while not rospy.is_shutdown():
         IMU_message=ser.readline()
-        #print(IMU_message)
+        #print(len(IMU_message))
 
-        if (len(IMU_message)>35): # 
+        if (len(IMU_message)>35):
             imu.header.stamp = rospy.Time.now()
             imu.header.frame_id = "imu_link"
             data=IMU_message.split(",")
-
-
-	    #print(data)
-	    #print(data[2])
-
 
             if(prev_sign is True):
                 prev_roll=round(float(data[0][1:]),3)
@@ -93,17 +92,13 @@ if __name__ == '__main__':
             rpy[0]=round(float(data[0][1:]),3)
             rpy[1]=round(float(data[1]),3)
             rpy[2]=round(float(data[2]),3)+error_yaw
-
             #print(rpy)
 
             #print(rpy[2])
-
             if (rpy[2] >= 180):
                 rpy[2] = rpy[2] - 2*180
             elif (rpy[2] <= -180):
                 rpy[2] = rpy[2] + 2*180
-
-	    #print(rpy[2])
 
 ###############high pass filter###############
             if(theta_sign is True):
@@ -120,7 +115,7 @@ if __name__ == '__main__':
                 theta = theta - 2*180
             elif (theta <= -180):
                 theta = theta + 2*180
-            theta=round(theta,2)
+
 ############################################
 
 
@@ -161,8 +156,7 @@ if __name__ == '__main__':
 
             imu_pub.publish(imu)
             pub_tf_transform(roll,pitch,yaw,w_speed,accel)
-
-            print("yaw:",rpy[2])
+            #print("yaw:",rpy[2])
             print("yaw:",-theta)
 
 

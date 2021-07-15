@@ -102,7 +102,7 @@ def publish_obstacle_msg():
         r_gpath = RotatedRect(cx, cy, height, 3, theta) # global path를 중심으로한 영역
         r_gpath_list[i] = r_gpath
 
-        if(step_num < 170): # 동적장애물 step 체크
+        if(step_num < 15): # 동적장애물 step 체크
           cx_ = (r_gpath.get_contour().exterior.coords[1][0] + r_gpath.get_contour().exterior.coords[2][0])/2
           cy_ = (r_gpath.get_contour().exterior.coords[1][1] + r_gpath.get_contour().exterior.coords[2][1])/2
         else:
@@ -153,7 +153,7 @@ def publish_obstacle_msg():
 
           r_cpath = r_cpath_list[j]
           r_gpath = r_gpath_list[j]
-          if(step_num <= 170 and step_num >= 120):
+          if(step_num <= 15 and step_num >= 5):
             if(r_gpath.get_contour().contains(point_obj)):
               is_bool.data = True
               box_bool = True
@@ -182,7 +182,7 @@ def publish_obstacle_msg():
           box_num += 1
           box_bool = False
 
-    if(step_num > 170): # 낭떨어지 및 버스 전용 도로 방지
+    if(step_num > 15): # 낭떨어지 및 버스 전용 도로 방지
       obstacle_msg.obstacles.append(ObstacleMsg())
       obstacle_msg.obstacles[box_num].id = box_num
       v1 = Point32()
@@ -227,6 +227,7 @@ def publish_obstacle_msg():
     obstacle_msg.header.stamp = rospy.Time.now()
     obstacle_msg.header.frame_id = "velodyne" # CHANGE HERE: odom/map
     print("num",step_num)
+    print("len",len(global_path.poses))
     # print("ok")
     r.sleep()
 

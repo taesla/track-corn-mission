@@ -1,0 +1,14 @@
+yolo_model:
+
+  config_file:
+    name: mission.cfg
+  weight_file:
+    name: mission_6900.weights
+  threshold:
+    value: 0.6
+  detection_classes:
+    names:
+      - Red
+      - Green
+      - Left
+      - StraightLeft

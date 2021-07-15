@@ -80,11 +80,11 @@ if __name__ == '__main__':
     #print("main : {}".format(os.getpid()))
 
     ntripArgs = {}
-    ntripArgs['lat']=37.236134
-    ntripArgs['lon']=126.774126
+    #ntripArgs['lat']=37.236134
+    #ntripArgs['lon']=126.774126
     #SUWON
-    #ntripArgs['lat']=37.630873
-    #ntripArgs['lon']=127.076533
+    ntripArgs['lat']=37.630873
+    ntripArgs['lon']=127.076533
     #SOUL
 
     #ntripArgs['lat']=37.16
@@ -106,8 +106,8 @@ if __name__ == '__main__':
     ntripArgs['port']=int("2101")
     #ntripArgs['port']=int("2201")
 
-    ntripArgs['mountpoint']="SUWN-RTCM32"
-    #ntripArgs['mountpoint']="SOUL-RTCM32"
+    #ntripArgs['mountpoint']="SUWN-RTCM32"
+    ntripArgs['mountpoint']="SOUL-RTCM32"
     #ntripArgs['mountpoint']="VRS-RTCM31"
     #ntripArgs['mountpoint']="FKP-RTCM31"
 

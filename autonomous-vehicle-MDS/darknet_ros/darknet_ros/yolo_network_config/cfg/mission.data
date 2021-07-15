@@ -1,0 +1,5 @@
+classes= 4
+train  = /home/mds-car/darknet/mission/train.txt
+valid  = /home/mds-car/darknet/mission/val.txt
+names = /home/mds-car/darknet/mission/mission.names
+backup = /home/mds-car/darknet/backup/

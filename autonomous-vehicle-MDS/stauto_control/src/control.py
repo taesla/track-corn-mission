@@ -35,7 +35,7 @@ def cur_gps_position_callback(data):
 
     cur_gps_position[0] = data.latitude
     cur_gps_position[1] = data.longitude
-    #print(cur_gps_position)
+#    #print(cur_gps_position)
 
 
 state_type={ -1 : "None",
@@ -159,8 +159,8 @@ if __name__ == '__main__':
     going_gps_n3=[0,0]
     going_gps=[0,0]
 
-    max_speed=4.0 #3.5
-    min_speed=2.5    #2.5
+    max_speed=2.0       #4.0
+    min_speed=1.5       #2.5
     rospy.sleep(1.5)
 
     parking_finish_time=time.time()
@@ -259,7 +259,7 @@ if __name__ == '__main__':
                 path_alpha=going_gps_theta3-going_gps_theta2
 
         
-
+    
         if (alpha_speed>=28):
             alpha_speed=28
         elif(alpha_speed<=-28):
@@ -267,7 +267,7 @@ if __name__ == '__main__':
 
         #print(alpha)
         #print(local_path[0][0],cur_gps_position[0],local_path[0][1],cur_gps_position[1])
-        L=1.3
+        L=1.04#L=1.04  1.3
         Ld=sqrt((local_path[0][0]-cur_gps_position[0])**(2) + (local_path[0][1]-cur_gps_position[1])**(2))
         '''
         speed_ld = speed*0.65
@@ -308,6 +308,7 @@ if __name__ == '__main__':
             ld = speed_ld+3.0-alpha_ld #4.3
         #print(path_alpha)
         print(round(speed_ld,2), round(alpha_ld,2), round(ld,2), round(abs(path_alpha),2))
+        #print(local_path[0][0],cur_gps_position[0],Ld)
         #print(round(speed_ld,6),round((alpha_ld*180/np.pi),4), round(ld,4))
         gps_theta=atan(2*L*sin(alpha)/ld)*(180/np.pi)
 
